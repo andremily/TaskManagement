@@ -1,0 +1,8 @@
+.group-button{
+    margin: 1px;
+    display: flex;
+    justify-content: flex-end;
+}
+.content-message{
+    padding: 5px;
+}

@@ -1,0 +1,70 @@
+<p-fieldset legend="Login">
+  
+  <div class="card-body">
+    <p-messages *ngIf="showError" severity="error" >
+      <ng-template pTemplate>
+        {{ errorMessage }}
+      </ng-template>
+    </p-messages>
+    <form
+      [formGroup]="loginForm"
+      autocomplete="off"
+      novalidate
+      (ngSubmit)="loginUser(loginForm.value)"
+      class="form-capture"
+    >
+      <div class="flex flex-column gap-3 dv-campos">
+        <label for="username" class="col-form-label col-sm-2">Usuario:</label>
+        <div>
+          <p-iconField iconPosition="left">
+            <p-inputIcon styleClass="pi pi-user" />
+            <input id="Name" formControlName="username" pInputText />
+          </p-iconField>
+          <div class="col-md-5">
+            <em
+              *ngIf="validateControl('username') && hasError('username', 'required')">Usuario requerido</em>
+          </div>
+        </div>
+      
+      </div>
+      <div class="flex flex-column gap-3 dv-campos">
+        <label for="password" class="col-form-label col-sm-2"
+          >Contraseña:</label
+        >
+        <div>
+            <p-iconField iconPosition="left">
+                <p-inputIcon styleClass="pi pi-lock" />
+                <input
+                id="password"
+                type="password"
+                formControlName="password"
+                pInputText
+              />
+              </p-iconField>
+              <div class="col-md-5">
+                <em
+                  *ngIf="
+                    validateControl('password') && hasError('password', 'required')
+                  "
+                  >Usuario requerido</em
+                >
+              </div>
+        </div>
+      
+      </div>
+      <div class="flex flex-column gap-3 dv-campos">
+        <a href="/register">Registrarse</a>
+      </div>
+      <div class="flex flex-column gap-3 dv-campos">
+        <button
+          pButton
+          label="Iniciar"
+          class="p-button-success"
+          [disabled]="!loginForm.valid"
+          type="submit"
+        ></button>
+      </div>
+    </form>
+  </div>
+</p-fieldset>
+    

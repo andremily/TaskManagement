@@ -1,0 +1,28 @@
+
+.group-button > p-button{
+  margin: 5px;
+
+}
+.dv-form{
+  height: 100%;
+  width: 100%;
+  /* display: flex; */
+}
+.dv-campos{
+  display: flex;
+  align-items: center;
+  margin: 5px;
+}
+
+.dv-campos > label{
+  width: 10em;
+}
+
+.dv-campos > div{
+  width: 10em;
+}
+.dv-campos > div>p-calendar{
+  width: 15.5em;
+  position: relative;
+  display: flex;
+}

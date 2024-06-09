@@ -1,0 +1,32 @@
+<p-dialog
+  header="Header"
+  *ngIf="visible"
+  [(visible)]="visible"
+  [style]="{ width: '35vw', heigth: '11vw' }"
+  closable="false"
+>
+  <ng-template pTemplate="header">
+    <div class="inline-flex align-items-center justify-content-center gap-2">
+      <div *ngIf="this.message.Code === 200">
+        <span> Operación Exitosa</span>
+      </div>
+      <div *ngIf="this.message.Code != 200">
+        <span> Operación Fallida</span>
+      </div>
+      
+    </div>
+  </ng-template>
+  <div class="content-message">
+    {{ this.message.Message }}
+  </div>
+  <hr>
+    <div class="group-button">
+      <button
+        pButton
+        label="Cerrar"
+        class="p-button-info"
+        (click)="Close()"
+      ></button>
+    </div>
+
+</p-dialog>

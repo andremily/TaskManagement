@@ -1,0 +1,45 @@
+/* You can add global styles to this file, and also import other style files */
+body{
+  margin: 0px;
+}
+.main{
+  height: 90%;
+  width: 100%;
+  position: absolute;
+}
+*{
+  font-size: 14.33px;
+}
+app-task, app-login, app-register{
+  height: 100%;
+  width: 100%;
+  position: absolute;
+}
+app-login, app-register{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+app-header{
+  width: 100%;
+  height: 10%;
+  display: flex;
+}
+.dv-campos{
+  display: flex;
+  align-items: center;
+  margin: 5px;
+}
+
+.dv-campos > label{
+  width: 10em;
+}
+
+.dv-campos > div{
+  width: 10em;
+}
+.content{
+  width: 100%;
+  height: 95.9%;
+}
