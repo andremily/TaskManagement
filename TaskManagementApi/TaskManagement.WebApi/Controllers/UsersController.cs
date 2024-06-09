@@ -25,16 +25,6 @@ namespace TaskManagement.WebApi.Controllers
             _logger = logger;
         }
 
-
-        //private readonly UserManager<UserForAuthenticationDto> _userManager;
-        //private readonly IMapper _mapper;
-        //private readonly JwtHandler _jwtHandler;
-        //public UsersController(UserManager<UserForAuthenticationDto> userManager, IMapper mapper, JwtHandler jwtHandler)
-        //{
-        //    _userManager = userManager;
-        //    _mapper = mapper;
-        //    _jwtHandler = jwtHandler;
-        //}
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] UserRequest userRequest)
         {
