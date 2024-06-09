@@ -8,6 +8,7 @@ namespace TaskManagement.WebApi.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
+    [Authorize]
     public class TaskController : ControllerBase
     {
         private readonly ITaskService _taskService;
@@ -20,7 +21,7 @@ namespace TaskManagement.WebApi.Controllers
 
    
         [HttpGet]
-        
+  
         public async Task<IActionResult> Get([FromQueryAttribute] TaskFindRequest taskFindRequest)
         {
             try

@@ -5,17 +5,16 @@ using Microsoft.Net.Http.Headers;
 using System.Text;
 using System.Text.Json.Serialization;
 using TaskManagement.Domain.Models;
+using TaskManagement.Persistence.Contexts;
+using TaskManagement.Service.Services;
 using TaskManagement.WebApi.App_Start;
-using TaskManagement.WebApi.JwtFeatures;
+
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddAutoMapper(typeof(TaskManagement.Service.Mappers.AuthMapperProfile));
 builder.Services.AddDependencyInjection();
 builder.Services.AddDataBaseContext(builder.Configuration);
-builder.Services.AddScoped<JwtHandler>();
-//builder.Services.AddIdentity<IdentityUser, IdentityRole>()
-//    .AddEntityFrameworkStores<ApplicationDbContext>()
-//    .AddDefaultTokenProviders();
+
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.Never;

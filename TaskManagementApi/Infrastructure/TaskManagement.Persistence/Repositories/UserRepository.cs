@@ -1,28 +1,22 @@
 ﻿using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
+using TaskManagement.Domain.Models;
 using TaskManagement.Persistence.Contexts;
 
 namespace TaskManagement.Persistence.Repositories
 {
-    public class UserRepository<T> : IUserRepository<T> where T : class
+    public class UserRepository : Repository<UserModel>, IUserRepository
     {
-
-        public readonly UserManagementContext _userManagementContext;
-        public UserRepository(UserManagementContext userManagementContext)
+        private readonly TaskManagementContext _taskManagementContext;
+        public UserRepository(TaskManagementContext taskManagementContext) : base(taskManagementContext)
         {
-            _userManagementContext = userManagementContext;
+            _taskManagementContext = taskManagementContext;
         }
-        //public Task<int> CreateAsync(T entity)
-        //{
-        //    await _userManagementContext.Set<T>().AddAsync(entity);
-        //    return await SaveAsync();
-        //}
 
-
-        public IQueryable<T> FindAllByCondition(System.Linq.Expressions.Expression<Func<T, bool>> expression)
+        public UserModel LoginUser(UserModel userModel)
         {
-            throw new NotImplementedException();
+            UserModel user = _taskManagementContext.Set<UserModel>().FirstOrDefault(x => x.Email == userModel.Email && x.Password == userModel.Password)!;
+            return user;
         }
-       
     }
 }

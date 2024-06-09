@@ -7,6 +7,7 @@ namespace TaskManagement.Persistence.Contexts
     public partial class TaskManagementContext : DbContext
     {
         public DbSet<TaskModel> TaskModel { get; set; }
+        public DbSet<UserModel> UserModel { get; set; }
 
         public TaskManagementContext(DbContextOptions<TaskManagementContext> options) : base(options)
         {
@@ -16,8 +17,9 @@ namespace TaskManagement.Persistence.Contexts
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<TaskModel>().ToTable("TblTasks").Property(x => x.Id).ValueGeneratedOnAdd();
+            modelBuilder.Entity<UserModel>().ToTable("TblUsers").Property(x => x.Id).ValueGeneratedOnAdd();
 
-            
+
         }
     }
 }

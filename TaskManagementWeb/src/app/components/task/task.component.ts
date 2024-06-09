@@ -4,7 +4,7 @@ import {
   Component,
   OnInit,
 } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { DialogModule } from 'primeng/dialog';
 import { HeaderComponent } from '../../base/header/header.component';
 import { AvatarModule } from 'primeng/avatar';
@@ -67,24 +67,28 @@ import { TaskRemoveRequest } from '../../shared/models/TaskRemoveRequest';
 export class TaskComponent implements OnInit {
   title = 'GestionTareas';
   ListTareas: TaskModel[] = [];
-  Task: TaskRequest = new TaskRequest('', '', new Date(), false, 1);
+  Task: TaskRequest = new TaskRequest('', '', new Date(), false, 0);
   Reload: boolean = false;
   Visible: boolean = false;
   form: FormGroup;
   Operacion: string = 'ADD';
   Message: GeneralResponse = new GeneralResponse(0, '');
   VisibleMessage: boolean = false;
-
+  UserId: number = 0;
   constructor(
     private cdr: ChangeDetectorRef,
     private formbuilder: FormBuilder,
-    private taskServices: TaskService
+    private taskServices: TaskService,
+    private router: Router,
+    private route: ActivatedRoute
   ) {
     this.form = new FormGroup({});
   }
   ngOnInit(): void {
     this.VisibleMessage = false;
-
+    var user = JSON.parse(localStorage.getItem('user')!);
+    this.UserId = user.Id;
+    this.Task.UserId = this.UserId;
     this.form = this.formbuilder.group({
       Name: ['', Validators.required],
       Description: ['', Validators.required],
@@ -99,13 +103,14 @@ export class TaskComponent implements OnInit {
     this.cdr.detectChanges();
 
     this.taskServices
-      .Get('/api/v1/Task', 1)
+      .Get('/api/v1/Task', this.UserId)
       .pipe(first())
       .subscribe(
         (data) => {
           this.ListTareas = data.TaskUser;
         },
         (err) => {
+          console.log(err);
           this.Message = new GeneralResponse(
             500,
             'El servicio no esta disponible.'
@@ -175,7 +180,7 @@ export class TaskComponent implements OnInit {
           this.Message = data;
           this.VisibleMessage = true;
           console.log(data);
-          this.Task = new TaskRequest('', '', new Date(), false, 1);
+          this.Task = new TaskRequest('', '', new Date(), false, this.UserId);
           this.cdr.detectChanges();
           this.LoadTask();
         },
@@ -194,7 +199,7 @@ export class TaskComponent implements OnInit {
           this.Message = data;
           this.VisibleMessage = true;
           console.log(data);
-          this.Task = new TaskRequest('', '', new Date(), false, 1);
+          this.Task = new TaskRequest('', '', new Date(), false, this.UserId);
           this.cdr.detectChanges();
           this.LoadTask();
         },

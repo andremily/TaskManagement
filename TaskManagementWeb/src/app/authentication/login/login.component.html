@@ -1,7 +1,6 @@
 <p-fieldset legend="Login">
-  
   <div class="card-body">
-    <p-messages *ngIf="showError" severity="error" >
+    <p-messages *ngIf="showError" severity="error">
       <ng-template pTemplate>
         {{ errorMessage }}
       </ng-template>
@@ -20,37 +19,45 @@
             <p-inputIcon styleClass="pi pi-user" />
             <input id="Name" formControlName="username" pInputText />
           </p-iconField>
-          <div class="col-md-5">
-            <em
-              *ngIf="validateControl('username') && hasError('username', 'required')">Usuario requerido</em>
-          </div>
         </div>
-      
+      </div>
+      <div>
+        <p-messages
+          *ngIf="
+            validateControl('username') && hasError('username', 'required')
+          "
+          severity="error"
+        >
+          <ng-template pTemplate> Usuario requerido </ng-template>
+        </p-messages>
+        <p-messages
+          *ngIf="validateControl('username') && hasError('username', 'email')"
+          severity="error"
+        >
+          <ng-template pTemplate> Usuario debe ser un email </ng-template>
+        </p-messages>
       </div>
       <div class="flex flex-column gap-3 dv-campos">
         <label for="password" class="col-form-label col-sm-2"
           >Contraseña:</label
         >
         <div>
-            <p-iconField iconPosition="left">
-                <p-inputIcon styleClass="pi pi-lock" />
-                <input
-                id="password"
-                type="password"
-                formControlName="password"
-                pInputText
-              />
-              </p-iconField>
-              <div class="col-md-5">
-                <em
-                  *ngIf="
-                    validateControl('password') && hasError('password', 'required')
-                  "
-                  >Usuario requerido</em
-                >
-              </div>
+          <p-iconField iconPosition="left">
+            <p-inputIcon styleClass="pi pi-lock" />
+            <input
+              id="password"
+              type="password"
+              formControlName="password"
+              pInputText
+            />
+          </p-iconField>
         </div>
-      
+      </div>
+      <div>
+        <p-messages
+          *ngIf="validateControl('password') && hasError('password', 'required')" severity="error">
+          <ng-template pTemplate> Contraseña requerida </ng-template>
+        </p-messages>
       </div>
       <div class="flex flex-column gap-3 dv-campos">
         <a href="/register">Registrarse</a>
@@ -67,4 +74,3 @@
     </form>
   </div>
 </p-fieldset>
-    

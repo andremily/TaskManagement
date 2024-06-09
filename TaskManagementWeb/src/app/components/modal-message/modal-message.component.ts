@@ -5,6 +5,7 @@ import { AvatarModule } from 'primeng/avatar';
 import { GeneralResponse } from '../../shared/models/GeneralResponse';
 import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-modal-message',
   standalone: true,
@@ -14,13 +15,19 @@ import { CommonModule } from '@angular/common';
   schemas:[CUSTOM_ELEMENTS_SCHEMA]
 })
 export class ModalMessageComponent implements OnChanges{
+ 
+  constructor(  private router: Router, private route: ActivatedRoute) {
+    
+    
+  }
 ngOnChanges(changes: SimpleChanges): void {
- console.log(this.visible);
 }
 @Input() visible: boolean = false;
 @Input() message: GeneralResponse = new GeneralResponse(0, "");
 Close(){
-  console.log("cierra");
   this.visible = false;
+  if(this.message.Code !== 200){
+    this.router.navigate(["/"]);
+  }
 }
 }

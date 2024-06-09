@@ -11,5 +11,6 @@ namespace TaskManagement.Service.Interfaces
     public interface IUserService
     {
         Task<Response> AddUserServiceAsync(UserRequest taskRequest);
+        UserLoginResponse Login(UserRequest userRequest);
     }
 }

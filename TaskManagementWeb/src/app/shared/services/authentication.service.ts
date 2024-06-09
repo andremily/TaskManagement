@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { UserForAuthenticationDto } from '../intefaces/UserForAuthenticationDto';
-import { AuthResponseDto } from '../intefaces/AuthResponseDto';
+import { UserRequest } from '../intefaces/UserRequest';
+import { UserResponse } from '../intefaces/UserResponse';
 import { HttpClient } from '@angular/common/http';
 import { Subject, map } from 'rxjs';
 import { GeneralResponse } from '../models/GeneralResponse';
@@ -20,18 +20,19 @@ export class AuthenticationService {
   private createCompleteRoute = (route: string, envAddress: string) => {
     return `${envAddress}/${route}`;
   };
-  public loginUser = (route: string, body: UserForAuthenticationDto) => {
-    return this.http.post<AuthResponseDto>(
+  public loginUser = (route: string, body: UserRequest) => {
+    return this.http.post<UserResponse>(
       this.createCompleteRoute(route, environment.apiUrl),
       body
     );
   };
   public logout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
     this.sendAuthStateChangeNotification(false);
   };
-  public Post(url: string, user: UserForAuthenticationDto) {
-    return this.http.post<GeneralResponse>(environment.apiUrl+url, user ).pipe(
+  public Post(url: string, user: UserRequest) {
+    return this.http.post<UserResponse>(environment.apiUrl+url, user ).pipe(
       map((data) => {
         return data;
       })

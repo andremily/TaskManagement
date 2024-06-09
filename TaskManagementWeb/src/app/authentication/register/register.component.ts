@@ -20,9 +20,12 @@ import { ModalMessageComponent } from '../../components/modal-message/modal-mess
 import { CheckboxModule } from 'primeng/checkbox';
 import { CardModule } from 'primeng/card';
 import { AuthenticationService } from '../../shared/services/authentication.service';
-import { UserForAuthenticationDto } from '../../shared/intefaces/UserForAuthenticationDto';
-import { AuthResponseDto } from '../../shared/intefaces/AuthResponseDto';
+
+import { UserResponse } from '../../shared/intefaces/UserResponse';
 import { FieldsetModule } from 'primeng/fieldset';
+import { UserRequest } from '../../shared/intefaces/UserRequest';
+import { first } from 'rxjs';
+import { GeneralResponse } from '../../shared/models/GeneralResponse';
 @Component({
   selector: 'app-register',
   standalone: true,
@@ -50,6 +53,9 @@ export class RegisterComponent implements OnInit {
   loginForm: FormGroup;
   errorMessage: string = '';
   showError: boolean = false;
+  Message: GeneralResponse = new GeneralResponse(0, '');
+  VisibleMessage:boolean= false;
+  
   constructor(
     private authService: AuthenticationService,
     private router: Router,
@@ -59,9 +65,9 @@ export class RegisterComponent implements OnInit {
   }
   ngOnInit(): void {
     this.loginForm = new FormGroup({
-      username: new FormControl('', [Validators.required]),
+      username: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required]),
-      confimrPassword: new FormControl('', [Validators.required]),
+      confirmPassword: new FormControl('', [Validators.required]),
     });
   }
   validateControl = (controlName: string) => {
@@ -74,20 +80,21 @@ export class RegisterComponent implements OnInit {
   registerUser = (loginFormValue:any) => {
     this.showError = false;
     const login = {... loginFormValue };
-    const userForAuth: UserForAuthenticationDto = {
+    const userRequest: UserRequest = {
       email: login.username,
       password: login.password
     }
-    // this.authService.loginUser('api/Accounts/Login', userForAuth)
-    // .subscribe({
-    //   next: (res:AuthResponseDto) => {
-    //    localStorage.setItem("token", res.token);
-    //    this.router.navigate([this.returnUrl]);
-    // },
-    // error: (err: HttpErrorResponse) => {
-    //   this.errorMessage = err.message;
-    //   this.showError = true;
-    // }})
+    this.authService.Post('/api/v1/Users', userRequest)
+    .pipe(first())
+    .subscribe(
+      (data) => {
+        this.Message = data;
+        this.VisibleMessage = true;
+      },
+      (err) => {
+        console.error(err);
+      }
+    );
   }
   matchValuesValidator(controlName: string, matchingControlName: string): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {

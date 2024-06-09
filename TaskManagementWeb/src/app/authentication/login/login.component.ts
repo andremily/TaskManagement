@@ -2,8 +2,8 @@ import { CUSTOM_ELEMENTS_SCHEMA, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthenticationService } from '../../shared/services/authentication.service';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
-import { UserForAuthenticationDto } from '../../shared/intefaces/UserForAuthenticationDto';
-import { AuthResponseDto } from '../../shared/intefaces/AuthResponseDto';
+import { UserRequest } from '../../shared/intefaces/UserRequest';
+import { UserResponse } from '../../shared/intefaces/UserResponse';
 import { HttpClientModule, HttpErrorResponse } from '@angular/common/http';
 import { ButtonModule } from 'primeng/button';
 import { IconFieldModule } from 'primeng/iconfield';
@@ -50,7 +50,7 @@ export class LoginComponent implements OnInit {
   
   ngOnInit(): void {
     this.loginForm = new FormGroup({
-      username: new FormControl("", [Validators.required]),
+      username: new FormControl("", [Validators.required, Validators.email]),
       password: new FormControl("", [Validators.required])
     })
     console.log(this.route.snapshot.queryParams['returnUrl']);
@@ -66,18 +66,20 @@ export class LoginComponent implements OnInit {
   loginUser = (loginFormValue:any) => {
     this.showError = false;
     const login = {... loginFormValue };
-    const userForAuth: UserForAuthenticationDto = {
+    const userForAuth: UserRequest = {
       email: login.username,
       password: login.password
     }
-    this.authService.loginUser('api/Accounts/Login', userForAuth)
+    this.authService.loginUser('api/v1/Users/Login', userForAuth)
     .subscribe({
-      next: (res:AuthResponseDto) => {
-       localStorage.setItem("token", res.token);
-       this.router.navigate([this.returnUrl]);
+      next: (res:UserResponse) => {
+       this.authService.sendAuthStateChangeNotification(true);
+       localStorage.setItem("user", JSON.stringify({Id: res.IdUser, Name: res.Email}));
+       localStorage.setItem("token", res.Token);
+       this.router.navigate(["/task"]);
     },
-    error: (err: HttpErrorResponse) => {
-      this.errorMessage = err.message;
+    error: (err: any) => {
+      this.errorMessage = err.error.Message;
       this.showError = true;
     }})
   }

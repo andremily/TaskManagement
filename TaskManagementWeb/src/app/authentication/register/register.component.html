@@ -53,16 +53,16 @@
                 </div>
               </div>
               <div class="flex flex-column gap-3 dv-campos">
-                <label for="password" class="col-form-label col-sm-2"
+                <label for="confirmPassword" class="col-form-label col-sm-2"
                   >Confirmar Contraseña:</label
                 >
                 <div>
                   <p-iconField iconPosition="left">
                     <p-inputIcon styleClass="pi pi-lock" />
                     <input
-                      id="password"
+                      id="confirmPassword"
                       type="password"
-                      formControlName="password"
+                      formControlName="confirmPassword"
                       pInputText
                     />
                   </p-iconField>
@@ -88,7 +88,4 @@
             </form>
           </div>
     </p-fieldset>
-    
-
-
-  
+    <app-modal-message [message]="this.Message" [visible]="this.VisibleMessage"></app-modal-message>

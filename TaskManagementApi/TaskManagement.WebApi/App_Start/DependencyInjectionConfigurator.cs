@@ -11,6 +11,11 @@ namespace TaskManagement.WebApi.App_Start
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped<ITaskRepository, TaskRepository>();
             services.AddScoped<ITaskService, TaskService>();
+            services.AddScoped<JwtHandler>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUserService, UserService>();
+
+
         }
     }
 }
