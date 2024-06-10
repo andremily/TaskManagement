@@ -24,9 +24,10 @@ ngOnChanges(changes: SimpleChanges): void {
 }
 @Input() visible: boolean = false;
 @Input() message: GeneralResponse = new GeneralResponse(0, "");
+@Input() redirect: boolean = false;
 Close(){
   this.visible = false;
-  if(this.message.Code !== 200){
+  if(this.message.Code !== 200 || this.redirect){
     this.router.navigate(["/"]);
   }
 }

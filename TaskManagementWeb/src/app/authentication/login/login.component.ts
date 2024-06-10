@@ -79,7 +79,13 @@ export class LoginComponent implements OnInit {
        this.router.navigate(["/task"]);
     },
     error: (err: any) => {
-      this.errorMessage = err.error.Message;
+      console.log(err);
+      if( err.statusText === "Unknown Error"){
+        this.errorMessage ="El servicio no estas disponible.";
+      }else{
+        this.errorMessage = err.error.Message;
+      }
+      
       this.showError = true;
     }})
   }

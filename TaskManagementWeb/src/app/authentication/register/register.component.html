@@ -1,91 +1,107 @@
-
-    <p-fieldset legend="Registrarse">
-        <div class="card-body">
-            <div *ngIf="showError" class="alert alert-danger" role="alert">
-              {{ errorMessage }}
-            </div>
-            <form
-              [formGroup]="loginForm"
-              autocomplete="off"
-              novalidate
-              (ngSubmit)="registerUser(loginForm.value)"
-              class="form-capture"
-            >
-              <div class="flex flex-column gap-3 dv-campos">
-                <label for="username" class="col-form-label col-sm-2">Usuario:</label>
-                <div>
-                  <p-iconField iconPosition="left">
-                    <p-inputIcon styleClass="pi pi-user" />
-                    <input id="Name" formControlName="username" pInputText />
-                  </p-iconField>
-                  <div class="col-md-5">
-                    <em
-                      *ngIf="
-                        validateControl('username') && hasError('username', 'required')
-                      "
-                      >Usuario requerido</em
-                    >
-                  </div>
-                </div>
-              </div>
-              <div class="flex flex-column gap-3 dv-campos">
-                <label for="password" class="col-form-label col-sm-2"
-                  >Contraseña:</label
-                >
-                <div>
-                  <p-iconField iconPosition="left">
-                    <p-inputIcon styleClass="pi pi-lock" />
-                    <input
-                      id="password"
-                      type="password"
-                      formControlName="password"
-                      pInputText
-                    />
-                  </p-iconField>
-                  <div class="col-md-5">
-                    <em
-                      *ngIf="
-                        validateControl('password') && hasError('password', 'required')
-                      "
-                      >Usuario requerido</em
-                    >
-                  </div>
-                </div>
-              </div>
-              <div class="flex flex-column gap-3 dv-campos">
-                <label for="confirmPassword" class="col-form-label col-sm-2"
-                  >Confirmar Contraseña:</label
-                >
-                <div>
-                  <p-iconField iconPosition="left">
-                    <p-inputIcon styleClass="pi pi-lock" />
-                    <input
-                      id="confirmPassword"
-                      type="password"
-                      formControlName="confirmPassword"
-                      pInputText
-                    />
-                  </p-iconField>
-                  <div class="col-md-5">
-                    <em
-                      *ngIf="
-                        validateControl('password') && hasError('password', 'required')
-                      "
-                      >Usuario requerido</em
-                    >
-                  </div>
-                </div>
-              </div>
-              <div class="flex flex-column gap-3 dv-campos">
-                <button
-                  pButton
-                  label="Iniciar"
-                  class="p-button-success"
-                  [disabled]="!loginForm.valid"
-                  type="submit"
-                ></button>
-              </div>
-            </form>
-          </div>
-    </p-fieldset>
-    <app-modal-message [message]="this.Message" [visible]="this.VisibleMessage"></app-modal-message>
+<p-fieldset legend="Registrarse">
+  <div class="card-body">
+    <div *ngIf="showError" class="alert alert-danger" role="alert">
+      {{ errorMessage }}
+    </div>
+    <form
+      [formGroup]="loginForm"
+      autocomplete="off"
+      novalidate
+      (ngSubmit)="registerUser(loginForm.value)"
+      class="form-capture"
+    >
+      <div class="flex flex-column gap-3 dv-campos">
+        <label for="username" class="col-form-label col-sm-2">Usuario:</label>
+        <div>
+          <p-iconField iconPosition="left">
+            <p-inputIcon styleClass="pi pi-user" />
+            <input id="Name" formControlName="username" pInputText />
+          </p-iconField>
+        </div>
+      </div>
+      <div>
+        <p-messages
+          *ngIf="
+            validateControl('username') && hasError('username', 'required')
+          "
+          severity="error"
+        >
+          <ng-template pTemplate> Usuario requerido </ng-template>
+        </p-messages>
+        <p-messages
+          *ngIf="validateControl('username') && hasError('username', 'email')"
+          severity="error"
+        >
+          <ng-template pTemplate> Usuario debe ser un email </ng-template>
+        </p-messages>
+      </div>
+      <div class="flex flex-column gap-3 dv-campos">
+        <label for="password" class="col-form-label col-sm-2"
+          >Contraseña:</label
+        >
+        <div>
+          <p-iconField iconPosition="left">
+            <p-inputIcon styleClass="pi pi-lock" />
+            <input
+              id="password"
+              type="password"
+              formControlName="password"
+              pInputText
+            />
+          </p-iconField>
+        </div>
+      </div>
+      <div>
+        <p-messages
+          *ngIf="
+            validateControl('password') && hasError('password', 'required')
+          "
+          severity="error"
+        >
+          <ng-template pTemplate> Contraseña requerida </ng-template>
+        </p-messages>
+      </div>
+      <div class="flex flex-column gap-3 dv-campos">
+        <label for="confirmPassword" class="col-form-label col-sm-2"
+          >Confirmar Contraseña:</label
+        >
+        <div>
+          <p-iconField iconPosition="left">
+            <p-inputIcon styleClass="pi pi-lock" />
+            <input
+              id="confirmPassword"
+              type="password"
+              formControlName="confirmPassword"
+              pInputText
+            />
+          </p-iconField>
+        </div>
+      </div>
+      <div>
+        <p-messages
+          *ngIf="
+            validateControl('confirmPassword') &&
+            hasError('confirmPassword', 'required')
+          "
+          severity="error"
+        >
+          <ng-template pTemplate>Confirmar contraseña requerida </ng-template>
+        </p-messages>
+      </div>
+      <div class="flex flex-column gap-3 dv-campos">
+        <button
+          pButton
+          label="Crear"
+          class="p-button-success"
+          [disabled]="!loginForm.valid"
+          type="submit"
+        ></button>
+      </div>
+    </form>
+  </div>
+</p-fieldset>
+<app-modal-message
+  [message]="this.Message"
+  [redirect]="true"
+  [visible]="this.VisibleMessage"
+></app-modal-message>

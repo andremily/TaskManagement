@@ -26,6 +26,7 @@ import { FieldsetModule } from 'primeng/fieldset';
 import { UserRequest } from '../../shared/intefaces/UserRequest';
 import { first } from 'rxjs';
 import { GeneralResponse } from '../../shared/models/GeneralResponse';
+import { MessagesModule } from 'primeng/messages';
 @Component({
   selector: 'app-register',
   standalone: true,
@@ -44,6 +45,7 @@ import { GeneralResponse } from '../../shared/models/GeneralResponse';
     ModalMessageComponent,
     CheckboxModule,
     CardModule,
+    MessagesModule
   ],
   providers: [AuthenticationService],
   templateUrl: './register.component.html',
@@ -96,6 +98,11 @@ export class RegisterComponent implements OnInit {
       }
     );
   }
+
+  passwordMatchValidator(g: FormGroup) {
+    return g.get('password')!.value === g.get('confirmPassword')!.value ? null : { mismatch: true };
+  }
+
   matchValuesValidator(controlName: string, matchingControlName: string): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
         const controlValue = control.get(controlName)?.value;

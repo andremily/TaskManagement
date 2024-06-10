@@ -95,7 +95,9 @@ export class TaskComponent implements OnInit {
       DueDate: ['', Validators.required],
       Completed: [false, Validators.required],
     });
-
+    if(user ===""){
+      
+    }
     this.LoadTask();
   }
   LoadTask() {
@@ -110,7 +112,6 @@ export class TaskComponent implements OnInit {
           this.ListTareas = data.TaskUser;
         },
         (err) => {
-          console.log(err);
           this.Message = new GeneralResponse(
             500,
             'El servicio no esta disponible.'
@@ -136,14 +137,12 @@ export class TaskComponent implements OnInit {
     this.cdr.detectChanges();
     var model = new TaskRemoveRequest(row.Id);
     this.taskServices
-
       .Delete('/api/v1/Task', model)
       .pipe(first())
       .subscribe(
         (data) => {
           this.Message = data;
           this.VisibleMessage = true;
-          console.log(data);
         },
         (err) => {
           console.error(err);
@@ -153,7 +152,6 @@ export class TaskComponent implements OnInit {
     this.ListTareas = this.ListTareas.filter(
       (item) => !this.isMatch(item, row)
     );
-    console.log(row);
   }
   isMatch(item: any, reference: any) {
     return Object.keys(reference).every((key) => item[key] === reference[key]);
@@ -179,7 +177,6 @@ export class TaskComponent implements OnInit {
         (data) => {
           this.Message = data;
           this.VisibleMessage = true;
-          console.log(data);
           this.Task = new TaskRequest('', '', new Date(), false, this.UserId);
           this.cdr.detectChanges();
           this.LoadTask();
@@ -195,10 +192,8 @@ export class TaskComponent implements OnInit {
       .pipe(first())
       .subscribe(
         (data) => {
-          console.log(data);
           this.Message = data;
           this.VisibleMessage = true;
-          console.log(data);
           this.Task = new TaskRequest('', '', new Date(), false, this.UserId);
           this.cdr.detectChanges();
           this.LoadTask();
